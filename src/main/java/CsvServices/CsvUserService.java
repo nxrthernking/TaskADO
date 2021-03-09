@@ -1,11 +1,9 @@
 package CsvServices;
 
-import DbServices.UserService;
 import Entities.User;
 import Repositories.UserRepository;
 import com.opencsv.CSVWriter;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
@@ -13,59 +11,56 @@ import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.sql.SQLException;
-import java.util.LinkedList;
+import java.io.Writer;
 import java.util.List;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class CsvUserService implements UserRepository<User,Long> {
 
-    private final CsvToBean<User> csvToBean;
+    //private final CsvToBean<User> csvToBean;
 
-    private final StatefulBeanToCsv sbc;
+    private  StatefulBeanToCsv sbc;
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public CsvUserService() throws IOException {
-        csvToBean = new CsvToBeanBuilder(Files.newBufferedReader(Paths.get("src/User.csv")))
-                .withType(User.class).withIgnoreLeadingWhiteSpace(true)
-                .build();
-
-        sbc =  new StatefulBeanToCsvBuilder(new FileWriter("src/User.csv"))
-                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-                .build();
-    }
 
     @Override
-    public User findById(Long id) {
+    public User findById(Long aLong) {
         return null;
     }
 
     @Override
     public void save(User user) {
-        try {
-            List<User> list = new UserService().findAll();
-            sbc.write(list);
-        } catch (SQLException | ClassNotFoundException | CsvRequiredFieldEmptyException
-                | CsvDataTypeMismatchException throwables) {
-            throwables.printStackTrace();
+//        try (Writer writer = new FileWriter("src/main/java/test.csv")){
+//            ColumnPositionMappingStrategy mappingStrategy = new ColumnPositionMappingStrategy();
+//            mappingStrategy.setType(User.class);
+//            mappingStrategy.setColumnMapping("id","username","password");
+//            sbc = new StatefulBeanToCsvBuilder(writer)
+//                    .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+//                    .withMappingStrategy(mappingStrategy)
+//                    .build();
+//            sbc.write(user);
+//        } catch (IOException
+//                | CsvRequiredFieldEmptyException
+//                | CsvDataTypeMismatchException e) {
+//            e.printStackTrace();
+//        }
+
+        try(Writer writer = new FileWriter("src/main/java/test.csv")) {
+            sbc = new StatefulBeanToCsvBuilder(writer)
+                    .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+                    .build();
+            sbc.write(user);
+        } catch (IOException | CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    @SuppressWarnings({"unchecked"})
     public List<User> findAll() {
-        List<User> users = new LinkedList<>();
-
-        for (User user : (Iterable<User>) csvToBean) {
-            users.add(user);
-        }
-
-       return users;
+        return null;
     }
 
     @Override
-    public void remove(Long id) {
+    public void remove(Long aLong) {
 
     }
 }

@@ -2,8 +2,9 @@ package Entities;
 
 
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 
-public class User{
+public class User {
 
     @CsvBindByName
     private Long id;
@@ -16,10 +17,10 @@ public class User{
 
     }
 
-//    public User(String username, String password) {
-//        this.username = username;
-//        this.password = password;
-//    }
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
