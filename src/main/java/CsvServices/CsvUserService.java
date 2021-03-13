@@ -1,54 +1,53 @@
 package CsvServices;
 
+import DbServices.UserService;
 import Entities.User;
 import Repositories.UserRepository;
 import com.opencsv.CSVWriter;
-import com.opencsv.bean.ColumnPositionMappingStrategy;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.bean.*;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class CsvUserService implements UserRepository<User,Long> {
 
-    //private final CsvToBean<User> csvToBean;
+    private  CsvToBean<User> csvToBean;
 
     private  StatefulBeanToCsv sbc;
 
 
+    public CsvUserService() {
+        try {
+            csvToBean = new CsvToBeanBuilder(new FileReader("src/User.csv"))
+                    .withType(User.class)
+                    .withSeparator(',')
+                    .build();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
-    public User findById(Long aLong) {
-        return null;
+    public User findById(Long id) {
+        List<User> list = csvToBean.parse();
+        return list.stream().
+                filter(s -> s.getId().equals(id)).findFirst().orElseThrow();
     }
 
     @Override
     public void save(User user) {
-//        try (Writer writer = new FileWriter("src/main/java/test.csv")){
-//            ColumnPositionMappingStrategy mappingStrategy = new ColumnPositionMappingStrategy();
-//            mappingStrategy.setType(User.class);
-//            mappingStrategy.setColumnMapping("id","username","password");
-//            sbc = new StatefulBeanToCsvBuilder(writer)
-//                    .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-//                    .withMappingStrategy(mappingStrategy)
-//                    .build();
-//            sbc.write(user);
-//        } catch (IOException
-//                | CsvRequiredFieldEmptyException
-//                | CsvDataTypeMismatchException e) {
-//            e.printStackTrace();
-//        }
-
-        try(Writer writer = new FileWriter("src/main/java/test.csv")) {
+        List<User> list = csvToBean.parse();
+        try(Writer writer = new FileWriter("src/User.csv")) {
             sbc = new StatefulBeanToCsvBuilder(writer)
                     .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
                     .build();
-            sbc.write(user);
+            sbc.write(list);
         } catch (IOException | CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
             e.printStackTrace();
         }
@@ -56,11 +55,12 @@ public class CsvUserService implements UserRepository<User,Long> {
 
     @Override
     public List<User> findAll() {
-        return null;
+
+        return csvToBean.parse();
     }
 
     @Override
-    public void remove(Long aLong) {
+    public void remove(Long id) {
 
     }
 }

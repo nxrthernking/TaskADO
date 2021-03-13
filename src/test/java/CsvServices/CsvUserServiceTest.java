@@ -19,7 +19,7 @@ class CsvUserServiceTest {
     void init() throws IOException {
         service = new CsvUserService();
         user = new User();
-        user.setId(1L);
+        user.setId(3L);
         user.setUsername("qwe");
         user.setPassword("pass");
     }
@@ -32,6 +32,6 @@ class CsvUserServiceTest {
     @Test
     void read() {
         List<User> list = service.findAll();
-        Assert.assertEquals(1,list.size());
+        Assert.assertEquals(3,list.size());
     }
 }
