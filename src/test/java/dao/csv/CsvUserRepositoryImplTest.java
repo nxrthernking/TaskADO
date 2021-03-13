@@ -1,6 +1,6 @@
 package dao.csv;
 
-import Entities.User;
+import entities.User;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

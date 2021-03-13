@@ -1,4 +1,4 @@
-package Handlers;
+package handlers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,8 +1,8 @@
 package dao.db;
 
-import Entities.User;
-import Handlers.DbHandler;
-import Repositories.UserRepository;
+import entities.User;
+import handlers.DbHandler;
+import repositories.UserRepository;
 
 import java.sql.*;
 import java.util.ArrayList;

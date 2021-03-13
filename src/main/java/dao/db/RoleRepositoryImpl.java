@@ -1,8 +1,8 @@
 package dao.db;
 
-import Entities.Role;
-import Handlers.DbHandler;
-import Repositories.RoleRepository;
+import entities.Role;
+import handlers.DbHandler;
+import repositories.RoleRepository;
 
 import java.sql.*;
 import java.util.LinkedList;

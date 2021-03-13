@@ -1,8 +1,8 @@
 package dao.db;
 
-import Entities.Employee;
-import Handlers.DbHandler;
-import Repositories.EmployeeRepository;
+import entities.Employee;
+import handlers.DbHandler;
+import repositories.EmployeeRepository;
 
 import java.sql.*;
 import java.util.LinkedList;

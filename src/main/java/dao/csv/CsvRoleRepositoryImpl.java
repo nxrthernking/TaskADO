@@ -1,8 +1,10 @@
 package dao.csv;
 
-import Entities.Role;
-import Entities.User;
-import Repositories.RoleRepository;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import entities.Role;
+import entities.User;
+import repositories.RoleRepository;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -19,6 +21,8 @@ import java.util.List;
 public class CsvRoleRepositoryImpl implements RoleRepository<Role,Long> {
 
 
+    // TODO: 14.03.2021 ne seivit normalno. otdelnie methods 
+    
     private CsvToBean<Role> csvToBean;
 
     private StatefulBeanToCsv sbc;
@@ -26,15 +30,17 @@ public class CsvRoleRepositoryImpl implements RoleRepository<Role,Long> {
     private List<Role> roles;
 
     public CsvRoleRepositoryImpl() {
-        try (Writer writer = new FileWriter("src/User.csv")) {
+        try (Writer writer = new FileWriter("src/roles.csv")) {
             sbc = new StatefulBeanToCsvBuilder(writer)
                     .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
                     .build();
 
-            csvToBean = new CsvToBeanBuilder(new FileReader("src/User.csv"))
+            csvToBean = new CsvToBeanBuilder(new FileReader("src/roles.csv"))
                     .withType(User.class)
                     .withSeparator(',')
                     .build();
+
+            roles = csvToBean.parse();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -42,22 +48,39 @@ public class CsvRoleRepositoryImpl implements RoleRepository<Role,Long> {
     }
 
     @Override
-    public Role findById(Long aLong) {
-        return null;
+    public Role findById(Long id) {
+        return roles.stream()
+                .filter(s -> s.getId().equals(id))
+                .findFirst()
+                .orElseThrow();
     }
 
     @Override
-    public void save(Role entity) {
-
+    public void save(Role role) {
+        roles.add(role);
+        try {
+            sbc.write(roles);
+        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Role> findAll() {
-        return null;
+        return roles;
     }
 
     @Override
-    public void remove(Long aLong) {
-
+    public void remove(Long id) {
+        Role role = roles.stream()
+                .filter(s -> s.getId().equals(id))
+                .findFirst()
+                .orElseThrow();
+        roles.remove(role);
+        try {
+            sbc.write(roles);
+        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
+            e.printStackTrace();
+        }
     }
 }

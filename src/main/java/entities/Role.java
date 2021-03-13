@@ -1,16 +1,22 @@
-package Entities;
+package entities;
+
+import com.opencsv.bean.CsvBindByName;
 
 public class Role {
 
+    @CsvBindByName
     private Long id;
 
+    @CsvBindByName
     private String name;
 
 
     public Role() {
     }
 
-    public Role(String name) {
+
+    public Role(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 

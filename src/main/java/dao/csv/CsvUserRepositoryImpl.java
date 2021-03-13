@@ -1,7 +1,7 @@
 package dao.csv;
 
-import Entities.User;
-import Repositories.UserRepository;
+import entities.User;
+import repositories.UserRepository;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;

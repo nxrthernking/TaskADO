@@ -1,6 +1,6 @@
 package dao;
 
-import Entities.User;
+import entities.User;
 import dao.db.UserRepositoryImpl;
 import org.junit.Assert;
 import org.junit.Test;

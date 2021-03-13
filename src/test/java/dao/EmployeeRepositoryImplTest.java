@@ -1,6 +1,6 @@
 package dao;
 
-import Entities.Employee;
+import entities.Employee;
 import dao.db.EmployeeRepositoryImpl;
 import org.junit.Assert;
 import org.junit.Test;
