@@ -1,4 +1,4 @@
-package DbServices;
+package dao.db;
 
 import Entities.Employee;
 import Handlers.DbHandler;
@@ -8,12 +8,12 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class EmployeeService implements EmployeeRepository<Employee,Long> {
+public class EmployeeRepositoryImpl implements EmployeeRepository<Employee,Long> {
 
     private Connection connection;
     private Statement statement;
 
-    public EmployeeService() throws SQLException,
+    public EmployeeRepositoryImpl() throws SQLException,
             ClassNotFoundException {
         this.connection = DbHandler.getConnection();
         this.statement = connection.createStatement();

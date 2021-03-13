@@ -1,6 +1,7 @@
-package DbServices;
+package dao;
 
 import Entities.User;
+import dao.db.UserRepositoryImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,15 +11,15 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class UserServiceTest {
+public class UserRepositoryImplTest {
 
-    private UserService userService;
+    private UserRepositoryImpl userRepositoryImpl;
 
     private User expectedUser;
 
     @BeforeEach
     void init() throws SQLException, ClassNotFoundException {
-        userService = new UserService();
+        userRepositoryImpl = new UserRepositoryImpl();
         expectedUser = new User();
         expectedUser.setId(1L);
         expectedUser.setUsername("bimo211");
@@ -28,14 +29,14 @@ public class UserServiceTest {
 
     @Test
     public void findById() {
-        User userFromDb = userService.findById(1L);
+        User userFromDb = userRepositoryImpl.findById(1L);
 
         assertEquals(expectedUser, userFromDb);
     }
 
     @Test
     public void findAll() {
-        List<User> users = userService.findAll();
+        List<User> users = userRepositoryImpl.findAll();
         Assert.assertNotNull(users);
 
     }

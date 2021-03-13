@@ -1,4 +1,4 @@
-package CsvServices;
+package dao.csv;
 
 import Entities.User;
 import org.junit.Assert;
@@ -8,16 +8,16 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
 
-class CsvUserServiceTest {
+class CsvUserRepositoryImplTest {
 
-    private CsvUserService service;
+    private CsvUserRepositoryImpl service;
 
     private User user;
 
 
     @BeforeEach
     void init() throws IOException {
-        service = new CsvUserService();
+        service = new CsvUserRepositoryImpl();
         user = new User();
         user.setId(3L);
         user.setUsername("qwe");

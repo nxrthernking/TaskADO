@@ -1,4 +1,4 @@
-package DbServices;
+package dao.db;
 
 import Entities.Role;
 import Handlers.DbHandler;
@@ -8,12 +8,12 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RoleService implements RoleRepository<Role,Long> {
+public class RoleRepositoryImpl implements RoleRepository<Role,Long> {
 
     private Connection connection;
     private Statement statement;
 
-    public RoleService() throws SQLException, ClassNotFoundException {
+    public RoleRepositoryImpl() throws SQLException, ClassNotFoundException {
         this.connection = DbHandler.getConnection();
         this.statement = connection.createStatement();
     }

@@ -1,4 +1,4 @@
-package DbServices;
+package dao.db;
 
 import Entities.User;
 import Handlers.DbHandler;
@@ -8,12 +8,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserService implements UserRepository<User,Long> {
+public class UserRepositoryImpl implements UserRepository<User,Long> {
 
     private  Connection connection;
     private Statement statement;
 
-    public UserService() throws SQLException, ClassNotFoundException {
+    public UserRepositoryImpl() throws SQLException, ClassNotFoundException {
         this.connection = DbHandler.getConnection();
         this.statement = connection.createStatement();
     }
