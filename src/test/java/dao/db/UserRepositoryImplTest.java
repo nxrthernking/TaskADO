@@ -24,19 +24,27 @@ public class UserRepositoryImplTest {
 
     @Test
     public void findById() {
-        User userFromDb = repository.findById(2L);
-        assertEquals(user, userFromDb);
+        assertEquals(user, repository.findById(2L));
     }
 
     @Test
     public void save(){
+        User user = new User();
+        user.setUsername("dasda");
+        user.setPassword("14124");
         repository.save(user);
+
     }
 
     @Test
     public void findAll() {
-        List<User> users = repository.findAll();
-        Assert.assertNotNull(users);
+        Assert.assertNotNull(repository.findAll());
+    }
+
+    @Test
+    public void remove(){
+        repository.remove(5L);
+        Assert.assertEquals(3L,repository.findAll().size());
 
     }
 
