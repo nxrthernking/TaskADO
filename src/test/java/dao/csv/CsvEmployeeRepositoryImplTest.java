@@ -1,15 +1,9 @@
 package dao.csv;
 
-import Utils.FileUtils;
 import entities.Employee;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CsvEmployeeRepositoryImplTest {
 
