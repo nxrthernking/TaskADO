@@ -1,16 +1,24 @@
 package entities;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class Employee {
+    @CsvBindByName
     private Long id;
+    @CsvBindByName
     private String firstName;
+    @CsvBindByName
     private String lastName;
+    @CsvBindByName
     private String telephone;
+    @CsvBindByName
     private String address;
 
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, String telephone, String address) {
+    public Employee(Long id, String firstName, String lastName, String telephone, String address) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.telephone = telephone;

@@ -2,36 +2,44 @@ package dao.csv;
 
 import entities.User;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
-import java.io.IOException;
-import java.util.List;
 
-class CsvUserRepositoryImplTest {
+public class CsvUserRepositoryImplTest {
 
-    private CsvUserRepositoryImpl service;
+    private CsvUserRepositoryImpl repository;
 
     private User user;
 
-
-    @BeforeEach
-    void init() throws IOException {
-        service = new CsvUserRepositoryImpl();
-        user = new User();
-        user.setId(3L);
-        user.setUsername("qwe");
-        user.setPassword("pass");
+    @Before
+    public void init(){
+        repository = new CsvUserRepositoryImpl();
+        user = new User(1L,"user","user");
     }
 
     @Test
-    void save() {
-        service.save(user);
+    public void findAll(){
+        Assert.assertNotNull(repository.findAll());
     }
 
     @Test
-    void read() {
-        List<User> list = service.findAll();
-        Assert.assertEquals(3,list.size());
+    public void save(){
+        repository.save(user);
+        Assert.assertEquals(1,repository.findAll().size());
     }
+
+    @Test
+    public void findById(){
+        User userFromFile = repository.findById(1L);
+        Assert.assertEquals(user,userFromFile);
+    }
+
+    @Test
+    public void remove(){
+        repository.remove(1L);
+        Assert.assertEquals(0,repository.findAll().size());
+    }
+
+
 }
