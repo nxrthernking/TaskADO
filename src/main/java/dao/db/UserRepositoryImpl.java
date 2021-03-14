@@ -13,15 +13,20 @@ public class UserRepositoryImpl implements UserRepository<User,Long> {
     private  Connection connection;
     private Statement statement;
 
-    public UserRepositoryImpl() throws SQLException, ClassNotFoundException {
-        this.connection = DbHandler.getConnection();
-        this.statement = connection.createStatement();
+    public UserRepositoryImpl() {
+        try {
+            this.connection = DbHandler.getConnection();
+            this.statement = connection.createStatement();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public User findById(Long id) {
         User user = null;
-        String sql = "SELECT * FROM t_user WHERE id=" + id;
+        String sql = "SELECT * FROM users WHERE id=" + id;
         try {
             ResultSet resultset = statement.executeQuery(sql);
             while(resultset.next()){
@@ -38,7 +43,7 @@ public class UserRepositoryImpl implements UserRepository<User,Long> {
 
     @Override
     public void save(User user) {
-        String sql = "INSERT INTO t_user(username,password) VALUES(?,?)";
+        String sql = "INSERT INTO users(username,password) VALUES(?,?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1,user.getUsername());
@@ -55,7 +60,7 @@ public class UserRepositoryImpl implements UserRepository<User,Long> {
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
         User user = null;
-        String sql = "SELECT * FROM t_user";
+        String sql = "SELECT * FROM users";
         try {
             ResultSet resultset = statement.executeQuery(sql);
             while(resultset.next()){
@@ -74,7 +79,7 @@ public class UserRepositoryImpl implements UserRepository<User,Long> {
 
     @Override
     public void remove(Long id) {
-        String sql = "DELETE FROM t_user WHERE id=?";
+        String sql = "DELETE FROM users WHERE id=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setLong(1,id);
