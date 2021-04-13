@@ -1,45 +1,35 @@
 package dao.csv;
 
 import entities.User;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 
-public class CsvUserRepositoryImplTest {
+class CsvUserRepositoryImplTest {
 
-    private CsvUserRepositoryImpl repository;
+    public static final CsvUserRepositoryImpl repository = new CsvUserRepositoryImpl();
 
-    private User user;
+    public static final long ID = 1L;
 
-    @Before
-    public void init(){
-        repository = new CsvUserRepositoryImpl();
-        user = new User(1L,"user","user");
+    public static final Long INCORRECT_ID = 33L;
+
+    private static final User USER = new User(ID, "user", "user");
+
+    @Test
+    void shouldGetNotEmptyUserListOnFindAll() {
+        Assertions.assertEquals(List.of(USER), repository.findAll());
     }
 
     @Test
-    public void findAll(){
-        Assert.assertNotNull(repository.findAll());
+    void shouldGetUserOnFindById() {
+        Assertions.assertEquals(USER, repository.findById(ID));
     }
 
     @Test
-    public void save(){
-        repository.save(user);
-        Assert.assertEquals(1,repository.findAll().size());
+    void shouldThrowNoSuchElementExceptionOnFindById(){
+        Assertions.assertThrows(NoSuchElementException.class,() -> repository.findById(INCORRECT_ID));
     }
-
-    @Test
-    public void findById(){
-        User userFromFile = repository.findById(1L);
-        Assert.assertEquals(user,userFromFile);
-    }
-
-    @Test
-    public void remove(){
-        repository.remove(1L);
-        Assert.assertEquals(0,repository.findAll().size());
-    }
-
-
 }
