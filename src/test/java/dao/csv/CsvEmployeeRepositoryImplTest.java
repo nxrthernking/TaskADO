@@ -2,46 +2,40 @@ package dao.csv;
 
 import entities.Employee;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 class CsvEmployeeRepositoryImplTest {
 
-    private  Employee employee;
+    public static final Long ID = 1L;
 
-    private CsvEmployeeRepositoryImpl repository;
+    public static final Long INCORRECT_ID = 2L;
 
+    private static final Employee EMPLOYEE = new Employee(ID,
+            "Petter",
+            "Griffin",
+            "+375293221312",
+            "st. Spooner");;
 
-    @BeforeEach
-    public void init(){
-        employee = new Employee(1L,
-                "Griffin",
-                "Petter",
-                "+375293221312",
-                "st. Spooner");
-        repository = new CsvEmployeeRepositoryImpl();
+    private static final CsvEmployeeRepositoryImpl repository =  new CsvEmployeeRepositoryImpl();;
+
+    @Test
+    void shouldGetEmployeeOnFindById(){
+        Assertions.assertEquals(EMPLOYEE,repository.findById(ID));
     }
 
     @Test
-    void findById() {
-        Employee actualEmployee = repository.findById(1L);
-        Assert.assertEquals(employee,actualEmployee);
+    void shouldGetEmployeeListOnFindAll(){
+        Assertions.assertEquals(List.of(EMPLOYEE),repository.findAll());
     }
 
     @Test
-    void save() {
-        repository.save(employee);
-        Assert.assertEquals(1L,repository.findAll().size());
+    void shouldThrowNoSuchElementExceptionOnFindById(){
+        Assertions.assertThrows(NoSuchElementException.class,() -> repository.findById(INCORRECT_ID));
     }
 
-    @Test
-    void findAll() {
-        Assert.assertNotNull(repository.findAll());
-    }
-
-    @Test
-    void remove() {
-        repository.remove(1L);
-        Assert.assertEquals(0,repository.findAll().size());
-    }
 }

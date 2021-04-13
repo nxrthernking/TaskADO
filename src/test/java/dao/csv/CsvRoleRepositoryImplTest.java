@@ -4,49 +4,40 @@ import Utils.FileUtils;
 import entities.Role;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
-public class CsvRoleRepositoryImplTest {
-
-
-    private Role role;
-
-    private CsvRoleRepositoryImpl repository;
-
-    @Before
-    public void init(){
-        role = new Role(1L,"ADMIN");
-        repository = new CsvRoleRepositoryImpl();
-    }
+class CsvRoleRepositoryImplTest {
 
 
-    @Test
-    public void tanyaCalculator(){
-        System.out.println(96%13);
-    }
+
+    public static final Long ID = 1L;
+
+    public static final long INCORRECT_ID = 33L;
+
+    private static final Role ROLE_ADMIN = new Role(1L,"ADMIN");
+    private static final Role ROLE_USER = new Role(2L,"USER");
+    private static final Role ROLE_EMPLOYEE = new Role(3L,"EMPLOYEE");
+
+    private static final CsvRoleRepositoryImpl repository = new CsvRoleRepositoryImpl();;
 
     @Test
-    public void findById() {
-        Role actualRole = repository.findById(1L);
-        Assert.assertEquals(role,actualRole);
+    void shouldGetRoleAdminOnFindById(){
+        Assertions.assertEquals(ROLE_ADMIN,repository.findById(ID));
     }
 
     @Test
-    public void save() {
-        repository.save(role);
+    void shouldGetEmployeeListOnFindAll(){
+        Assertions.assertTrue(List.of(ROLE_ADMIN,ROLE_EMPLOYEE,ROLE_USER).containsAll(repository.findAll()));
     }
 
     @Test
-    public void findAll() {
-        List<Role> roles = repository.findAll();
-        Assert.assertEquals(3L,roles.size());
+    void shouldThrowNoSuchElementExceptionOnFindById(){
+        Assertions.assertThrows(NoSuchElementException.class,() -> repository.findById(INCORRECT_ID));
     }
 
-    @Test
-    public void remove() {
-        repository.remove(1L);
-        Assert.assertEquals(2,repository.findAll().size());
-    }
+
 }

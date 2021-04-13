@@ -42,7 +42,7 @@ public class Runner {
                     System.out.println("Пользователь удален!");
                     break;
                 case 4:
-                    System.out.println(repository.findAll());
+                    repository.findAll().forEach(System.out::println);
                     break;
                 case 5:
                     choice = -1;
